@@ -1,11 +1,10 @@
 #!/usr/bin/python3
-"""Defines a dunction canUnlockAll();
-Determines if all the boxes can be opened in a
-number of locked boxes in front of you.
+"""Defines function that determines if all boxes can be opened
+   from a list of lists
 """
 
 
-def unlock(idx, key=[]):
+def unlock(idx, keys=[]):
     """Unlocks a box with key
 
     Args:
@@ -15,14 +14,14 @@ def unlock(idx, key=[]):
     Returns:
         bool: True if the box can be unlocked, False otherwise
     """
-    if not key:
+    if not keys:
         return False
 
-    for i in range(len(key)):
-        if key[i] == idx:
-            del key[i]
-            return True
-    return False
+    if idx in keys:
+        keys.remove(idx)
+        return True
+    else:
+        return False
 
 
 def canUnlockAll(boxes):
@@ -36,16 +35,18 @@ def canUnlockAll(boxes):
     Returns:
         bool: True if all boxes can be opened, False otherwise.
     """
-    keys = []  # Store all keys in each box.
+    if not boxes:
+        return False
 
-    keys.extend(boxes[0])
+    keys = set(boxes[0])  # Store all keys in each box.
+
     unlockedAll = False
 
     # Iterate through the boxes
-    for i in range(1, len(boxes)):
+    for i in range(1, len(boxes) - 1):
         # Attempt to unlock each box with keys
         unlockedAll = unlock(i, keys)
         # If unlocked add new box keys to keys[]
-        keys.extend(boxes[i])
+        keys.update(boxes[i])
 
     return unlockedAll
