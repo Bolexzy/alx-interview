@@ -25,12 +25,16 @@ def canUnlockAll(boxes):
     unlocked[0] = True  # The first box is unlocked
 
     # Iterate through the boxes
-    for box_idx in range(1, num_boxes):
+    for box_idx in range(num_boxes):
+        if not unlocked[box_idx]:
+            continue
+
         # Check if the box can be unlocked
-        if any(key in range(num_boxes) and not unlocked[key] for key in keys):
-            unlocked[box_idx] = True  # Mark the box as unlocked
-            # Add the keys in the box to the key list
-            keys.extend(boxes[box_idx])
+        for key in boxes[box_idx]:
+            if key < num_boxes and not unlocked[key]:
+              unlocked[key] = True  # Mark the box as unlocked
+              # Add the keys in the box to the key list
+              keys.extend(boxes[key])
 
     # Check if all boxes are unlocked
     return all(unlocked)
