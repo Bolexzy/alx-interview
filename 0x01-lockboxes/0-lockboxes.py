@@ -44,8 +44,8 @@ def canUnlockAll(boxes):
     # Iterate through the boxes
     for i in range(1, len(boxes)):
         # Attempt to unlock each box with keys
-        unlockedAll = unlock(i, boxes[i], keys)
+        unlockedAll = unlock(i, keys)
         # If unlocked add new box keys to keys[]
-        key.extend(boxes[i])
+        keys.extend(boxes[i])
 
     return unlockedAll
