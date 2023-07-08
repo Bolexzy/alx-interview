@@ -32,9 +32,9 @@ def canUnlockAll(boxes):
         # Check if the box can be unlocked
         for key in boxes[box_idx]:
             if key < num_boxes and not unlocked[key]:
-              unlocked[key] = True  # Mark the box as unlocked
-              # Add the keys in the box to the key list
-              keys.extend(boxes[key])
+                unlocked[key] = True  # Mark the box as unlocked
+                # Add the keys in the box to the key list
+                keys.extend(boxes[key])
 
     # Check if all boxes are unlocked
     return all(unlocked)
