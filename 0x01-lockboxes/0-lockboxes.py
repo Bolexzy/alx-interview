@@ -4,26 +4,6 @@
 """
 
 
-def unlock(idx, keys=[]):
-    """Unlocks a box with key
-
-    Args:
-        idx: The index/key of the box
-        Key: A list of positive integers of keys to unlock boxes.
-
-    Returns:
-        bool: True if the box can be unlocked, False otherwise
-    """
-    if not keys:
-        return False
-
-    if idx in keys:
-        keys.remove(idx)
-        return True
-    else:
-        return False
-
-
 def canUnlockAll(boxes):
     """
     Determine if all the boxes can be opened.
@@ -38,15 +18,19 @@ def canUnlockAll(boxes):
     if not boxes:
         return False
 
-    keys = set(boxes[0])  # Store all keys in each box.
+    num_boxes = len(boxes)
+    keys = boxes[0]  # Store the keys of the first box
+    unlocked = [False] * num_boxes  # Track the unlocked status of each box
 
-    unlockedAll = False
+    unlocked[0] = True  # The first box is unlocked
 
     # Iterate through the boxes
-    for i in range(1, len(boxes) - 1):
-        # Attempt to unlock each box with keys
-        unlockedAll = unlock(i, keys)
-        # If unlocked add new box keys to keys[]
-        keys.update(boxes[i])
+    for box_idx in range(1, num_boxes):
+        # Check if the box can be unlocked
+        if any(key in range(num_boxes) and not unlocked[key] for key in keys):
+            unlocked[box_idx] = True  # Mark the box as unlocked
+            # Add the keys in the box to the key list
+            keys.extend(boxes[box_idx])
 
-    return unlockedAll
+    # Check if all boxes are unlocked
+    return all(unlocked)
