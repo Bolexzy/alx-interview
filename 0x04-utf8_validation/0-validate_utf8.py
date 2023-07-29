@@ -35,6 +35,6 @@ def validUTF8(data):
             elif data[i + j] & 192 != 128:
                 return False
             j += 1
-        i = i + byte_num - 1
+        i = i + byte_num
 
     return True
