@@ -10,7 +10,7 @@ def validUTF8(data):
     Returns a bool representing True or False
     '''
 
-    for i in range(len(data)):
+    for i in range(len(data) - 1):
         byte = data[i]
         byte_num = 0
 
@@ -29,12 +29,12 @@ def validUTF8(data):
             return False
 
         j = 1
-        while j < byte_num:
+        while j < byte_num and (i + j) < len(data):
             if (j + i) >= byte_num:
                 return False
             elif data[i + j] & 192 != 128:
                 return False
             j += 1
-        i = i + byte_num
+        i += byte_num
 
     return True
