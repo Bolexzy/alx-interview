@@ -17,9 +17,10 @@ def minOperations(n):
     if n <= 1:
         return min_ops
 
-    for i in range(2, n + 1):
+    for i in range(2, n + n):
         while n % i == 0:
             min_ops += i
             n /= i
 
-    return min_ops
+        if n == 1:
+            return min_ops
