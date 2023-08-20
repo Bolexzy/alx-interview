@@ -12,7 +12,7 @@ if __name__ == '__main__':
     def print_stats():
         ''' Print the stats from above data.
         '''
-        print('File size: {}'.format(file_size[0]))
+        print('File size: {:d}'.format(file_size[0]))
         for key in sorted(status_codes.keys()):
             if status_codes[key]:
                 print('{}: {}'.format(key, status_codes[key]))
@@ -23,10 +23,13 @@ if __name__ == '__main__':
             line = line.strip()
 
             match = line.split(' ')
-            status_code = int(match[-2])
-            fileSize = int(match[-1])
+            try:
+                status_code = int(match[-2])
+                fileSize = int(match[-1])
+            except Exception:
+                pass
 
-            file_size[0] = fileSize
+            file_size[0] += fileSize
             if status_code in status_codes:
                 status_codes[status_code] += 1
 
@@ -34,7 +37,7 @@ if __name__ == '__main__':
             # print after every 10 lines
             if line_num % 10 == 0:
                 print_stats()
+        print_stats()
     except KeyboardInterrupt:
         print_stats()
         raise
-    print_stats()
