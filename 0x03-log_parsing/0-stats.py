@@ -26,7 +26,7 @@ if __name__ == '__main__':
             try:
                 status_code = int(match[-2])
                 fileSize = int(match[-1])
-            except Exception:
+            except:
                 pass
 
             file_size[0] += fileSize
