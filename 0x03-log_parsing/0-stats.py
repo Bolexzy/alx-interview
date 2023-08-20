@@ -17,7 +17,7 @@ if __name__ == '__main__':
             if status_codes[key]:
                 print('{}: {}'.format(key, status_codes[key]))
 
-    line_num = 1
+    line_num = 0
     try:
         for line in sys.stdin:
             line = line.strip()
@@ -30,10 +30,10 @@ if __name__ == '__main__':
             if status_code in status_codes:
                 status_codes[status_code] += 1
 
+            line_num += 1
             # print after every 10 lines
             if line_num % 10 == 0:
                 print_stats()
-            line_num += 1
     except KeyboardInterrupt:
         print_stats()
         raise
