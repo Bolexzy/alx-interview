@@ -20,13 +20,11 @@ if __name__ == '__main__':
     line_num = 0
     try:
         for line in sys.stdin:
-            line = line.strip()
-
             match = line.split(' ')
             try:
                 status_code = int(match[-2])
                 fileSize = int(match[-1])
-            except:
+            except Exception:
                 pass
 
             file_size[0] += fileSize
