@@ -10,19 +10,19 @@ def makeChange(coins, total):
     if total <= 0:
         return 0
 
+    coins = sorted(coins, reverse=True)
+
     rem = total
     count = 0
-    coin_idx = 0
 
-    sorted_coins = sorted(coins, reverse=True)
-    n = len(coins)
-    while rem > 0:
-        if coin_idx >= n:
-            return -1
-        if rem - sorted_coins[coin_idx] >= 0:
-            rem -= sorted_coins[coin_idx]
+    for coin in coins:
+        while coin <= rem:
+            rem -= coin  # Subtract the coin value from remaining amount
             count += 1
-        else:
-            coin_idx += 1
+            if rem == 0:
+                return count  # Return count if remaining amount becomes zero
+            elif rem < 0:
+                return -1  # If remaining amount becomes negative, not possible
 
-    return count
+    return -1  # If loop completes without reaching zero, return -1
+
