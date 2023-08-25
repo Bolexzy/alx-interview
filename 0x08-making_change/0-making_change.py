@@ -25,4 +25,3 @@ def makeChange(coins, total):
                 return -1  # If remaining amount becomes negative, not possible
 
     return -1  # If loop completes without reaching zero, return -1
-
