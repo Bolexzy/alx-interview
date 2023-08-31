@@ -7,35 +7,24 @@ def island_perimeter(grid):
     '''
     Returns the perimeter of the island described in grid with no lakes.
     '''
+    visit = set()
 
-    n = len(grid)
-    l_index = -1
-    b_index = -1
-    l = 0
-    b = 1
-    for row in range(n):
-        for col in range(len(grid[row])):
-            if grid[row][col] == 1:
-                if l_index != -1:
-                    if l_index == col:
-                        l += 1
-                else:
-                    l = 1
-                l_index = col
+    def dfs(i, j):
+        if i >= len(grid) or j >= len(grid[0]) or\
+              i < 0 or j < 0 or grid[i][j] == 0:
+            return 1
 
-            if grid[row][col] == 1 and grid[row + 1][col] == 0:
-                if grid[row][col + 1] == 1:
-                    if b_index == -1:
-                        b = 1
-                    else:
-                        if b_index == row:
-                            b += 1
-                    b_index = row
-                elif grid[row][col] == 1:
-                    b += 1
+        if (i, j) in visit:
+            return 0
 
-    if l == b:
-        return (4 * l)
-    elif l > b or b > l:
-        sides = l + b
-        return (2 * sides)
+        visit.add((i, j))
+        perim = dfs(i, j + 1)
+        perim += dfs(i, j - 1)
+        perim += dfs(i + 1, j)
+        perim += dfs(i - 1, j)
+        return perim
+
+    for row in range(len(grid)):
+        for col in range(len(grid[0])):
+            if grid[row][col]:
+                return dfs(row, col)
