@@ -1,66 +1,49 @@
 #!/usr/bin/python3
 
+""" Prime Game """
 
-def find_first_prime(numbers):
-    def is_prime(num):
-        if num <= 1:
-            return False
-        if num <= 3:
-            return True
-        if num % 2 == 0 or num % 3 == 0:
-            return False
-        i = 5
-        while i * i <= num:
-            if num % i == 0 or num % (i + 2) == 0:
-                return False
-            i += 6
-        return True
 
-    for num in numbers:
-        if is_prime(num):
-            return num
-    return 0
+def check_prime(n):
+    """ Check if n is a prime number """
+    for i in range(2, int(n ** 0.5) + 1):
+        if not n % i:
+            return False
+    return True
+
+
+def add_prime(n, primes):
+    """ Add prime to list """
+    last_prime = primes[-1]
+    if n > last_prime:
+        for i in range(last_prime + 1, n + 1):
+            if check_prime(i):
+                primes.append(i)
+            else:
+                primes.append(0)
 
 
 def isWinner(x, nums):
-    '''
-    '''
-    p = 1
+    """ x is the number of rounds and nums is an array of n
+    Return: name of the player that won the most rounds
+    If the winner cannot be determined, return None """
 
-    def find_multiples(number, n):
-        multiples = set()
-        for i in range(1, n + 1):
-            multiple = number * i
-            if multiple <= n:
-                multiples.add(multiple)
-            else:
-                break
-        return multiples
+    score = {"Maria": 0, "Ben": 0}
+    primes = [0, 0, 2]
+    add_prime(max(nums), primes)
 
-    winner = None
-    ben = 0
-    maria = 0
-    round = 1
+    for round in range(x):
+        _sum = sum((i != 0 and i <= nums[round])
+                   for i in primes[:nums[round] + 1])
+        if (_sum % 2):
+            winner = "Maria"
+        else:
+            winner = "Ben"
+        if winner:
+            score[winner] += 1
 
-    for n in nums:
-        ints = set(range(1, n + 1))
-        while p != 0:
-            p = find_first_prime(ints)
-            multiples = find_multiples(p, n)
+    if score["Maria"] > score["Ben"]:
+        return "Maria"
+    elif score["Ben"] > score["Maria"]:
+        return "Ben"
 
-            ints = ints - multiples
-
-            if p == 0:
-                if round % 2 == 0:
-                    winner = 'maria'
-                    maria += 1
-                else:
-                    winner = 'ben'
-                    ben += 1
-
-            round += 1
-
-    if maria > ben:
-        return 'Ben'
-    else:
-        return 'Maria'
+    return None
